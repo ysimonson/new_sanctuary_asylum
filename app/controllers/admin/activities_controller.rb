@@ -1,4 +1,5 @@
 class Admin::ActivitiesController < AdminController
+  before_action [:index, :new, :last_month, :accompaniments, :last_month_accompaniments], :active_for_community?
 
   def index
     @activities = Activity.current_month(events: Activity::NON_ACCOMPANIMENT_ELIGIBLE_EVENTS)
@@ -46,12 +47,12 @@ class Admin::ActivitiesController < AdminController
   end
 
   def activity
-    @activity ||= Activity.find(params[:id]) 
+    @activity ||= Activity.find(params[:id])
   end
 
   private
   def activity_params
-    params.require(:activity).permit( 
+    params.require(:activity).permit(
       :event,
       :location_id,
       :friend_id,
@@ -59,5 +60,8 @@ class Admin::ActivitiesController < AdminController
       :occur_at,
       :notes
     )
+  end
+
+  def active_for_community?
   end
 end

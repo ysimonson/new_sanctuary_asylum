@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  
+
   devise_for :users, controllers: { invitations: "invitations" }
   devise_scope :user do
     authenticated do
@@ -22,37 +22,40 @@ Rails.application.routes.draw do
   resources :accompaniments
   resources :activities, only: [:index]
 
-  namespace :admin do
-  	resources :users
-    resources :activities, except: [:destroy] do
-      collection do
-        get :last_month
-        get :accompaniments
-        get :last_month_accompaniments
+
+  resources :communities, only: [] do
+    namespace :admin do
+    	resources :users
+      resources :activities, except: [:destroy] do
+        collection do
+          get :last_month
+          get :accompaniments
+          get :last_month_accompaniments
+        end
       end
-    end
-    resources :friends do
-      resources :activities, controller: 'friends/activities'
-      resources :detentions, controller: 'friends/detentions'
-      resources :family_members
-    end
-
-    resources :judges, except: [:show, :destroy]
-    resources :locations, except: [:show, :destroy]
-    resources :sanctuaries, except: [:show, :destroy]
-    resources :lawyers, except: [:show, :destroy]
-
-    resources :events do
-      member do
-        get :attendance
+      resources :friends do
+        resources :activities, controller: 'friends/activities'
+        resources :detentions, controller: 'friends/detentions'
+        resources :family_members
       end
-      resources :friend_event_attendances, only: [:create, :destroy]
-      resources :user_event_attendances, only: [:create, :destroy]
-      resources :friend_event_attendances, only: [:create, :destroy]
-    end
 
-    get 'reports/new', to: 'reports#new'
-    post 'reports/create', to: 'reports#create'
+      resources :judges, except: [:show, :destroy]
+      resources :locations, except: [:show, :destroy]
+      resources :sanctuaries, except: [:show, :destroy]
+      resources :lawyers, except: [:show, :destroy]
+
+      resources :events do
+        member do
+          get :attendance
+        end
+        resources :friend_event_attendances, only: [:create, :destroy]
+        resources :user_event_attendances, only: [:create, :destroy]
+        resources :friend_event_attendances, only: [:create, :destroy]
+      end
+
+      get 'reports/new', to: 'reports#new'
+      post 'reports/create', to: 'reports#create'
+    end
   end
 
   namespace :accompaniment_leader do

@@ -27,5 +27,11 @@ module NewSanctuaryAsylum
     if !Rails.env.development? && !Rails.env.test?
       config.middleware.use Rack::Attack
     end
+
+    config.generators do |g|
+        g.assets = false
+        g.helper = false
+        g.test_framework = false
+    end
   end
 end
