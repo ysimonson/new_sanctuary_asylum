@@ -6,7 +6,7 @@ RSpec.describe 'Friend edit other case info', type: :feature, js: true do
     let(:community) { create :community }
     let(:community_admin) { create(:user, :community_admin, community: community) }
     let(:friend) { create(:friend, community: community) }
-    let!(:social_work_referral_categories) { 
+    let!(:social_work_referral_categories) {
       [
         esl_social_work_referral_category,
         create(:social_work_referral_category, name: 'IDNYC')
